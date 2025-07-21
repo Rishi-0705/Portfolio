@@ -61,9 +61,23 @@ const Portfolio = () => {
     setCurrentProject(project);
     setCurrentImageIndex(index);
     setIsOpen(true);
+    // Lock body scroll when modal opens
+    document.body.style.overflow = 'hidden';
+    document.body.style.position = 'fixed';
+    document.body.style.top = `-${window.scrollY}px`;
+    document.body.style.width = '100%';
   };
 
-  const closeGallery = () => setIsOpen(false);
+  const closeGallery = () => {
+    // Restore body scroll when modal closes
+    const scrollY = document.body.style.top;
+    document.body.style.overflow = '';
+    document.body.style.position = '';
+    document.body.style.top = '';
+    document.body.style.width = '';
+    window.scrollTo(0, parseInt(scrollY || '0') * -1);
+    setIsOpen(false);
+  };
   const goNext = () => setCurrentImageIndex((prev) => (prev + 1) % currentProject.gallery.length);
   const goPrev = () => setCurrentImageIndex((prev) => (prev - 1 + currentProject.gallery.length) % currentProject.gallery.length);
 
@@ -181,15 +195,36 @@ const Portfolio = () => {
         {/* Lightbox Popup */}
         {isOpen && currentProject && (
           <div
-            className="popup-overlay fixed inset-0 bg-black/80 z-[9999] flex flex-col items-center justify-center p-4 animate-fadeIn"
+            className="popup-overlay fixed inset-0 bg-black/90 z-[9999] flex items-center justify-center p-4"
+            style={{ 
+              position: 'fixed',
+              top: 0,
+              left: 0,
+              right: 0,
+              bottom: 0,
+              margin: 0,
+              padding: '1rem',
+              display: 'flex',
+              alignItems: 'center',
+              justifyContent: 'center'
+            }}
             onClick={handleClickOutside}
             onTouchStart={handleTouchStart}
             onTouchEnd={handleTouchEnd}
           >
-            <div className="relative bg-white/5 p-4 rounded-2xl shadow-2xl border border-white/10 backdrop-blur-sm max-w-4xl mx-auto">
+            <div 
+              className="relative bg-white/5 p-4 rounded-2xl shadow-2xl border border-white/10 backdrop-blur-sm w-full max-w-4xl mx-auto"
+              style={{
+                maxHeight: '90vh',
+                display: 'flex',
+                flexDirection: 'column',
+                alignItems: 'center',
+                justifyContent: 'center'
+              }}
+            >
               {/* Close Button */}
               <button
-                className="absolute -top-4 -right-4 w-10 h-10 bg-gradient-to-r from-[#FF2E92] to-[#640043] text-white rounded-full flex items-center justify-center text-2xl shadow-lg hover:scale-110 transition-transform duration-300"
+                className="absolute -top-2 -right-2 md:-top-4 md:-right-4 w-8 h-8 md:w-10 md:h-10 bg-gradient-to-r from-[#FF2E92] to-[#640043] text-white rounded-full flex items-center justify-center text-xl md:text-2xl shadow-lg hover:scale-110 transition-transform duration-300 z-10"
                 onClick={closeGallery}
               >
                 &times;
@@ -199,17 +234,23 @@ const Portfolio = () => {
               <img
                 src={currentProject.gallery[currentImageIndex]}
                 alt="Gallery"
-                className="max-h-[70vh] max-w-full rounded-xl shadow-xl border border-white/10 transition-transform duration-300"
+                className="max-h-[60vh] md:max-h-[70vh] max-w-full w-auto h-auto rounded-xl shadow-xl border border-white/10 transition-transform duration-300 object-contain"
+                style={{
+                  maxWidth: '100%',
+                  maxHeight: '60vh',
+                  width: 'auto',
+                  height: 'auto'
+                }}
               />
 
               {/* Thumbnails */}
-              <div className="flex justify-center gap-3 mt-4">
+              <div className="flex justify-center gap-2 md:gap-3 mt-4 overflow-x-auto max-w-full">
                 {currentProject.gallery.map((thumb, idx) => (
                   <img
                     key={idx}
                     src={thumb}
                     alt={`Thumbnail ${idx}`}
-                    className={`h-16 w-24 object-cover rounded-md border-2 cursor-pointer transition-transform hover:scale-105 ${
+                    className={`h-12 w-16 md:h-16 md:w-24 object-cover rounded-md border-2 cursor-pointer transition-transform hover:scale-105 flex-shrink-0 ${
                       currentImageIndex === idx ? 'border-[#FF2E92]' : 'border-transparent'
                     }`}
                     onClick={() => setCurrentImageIndex(idx)}
@@ -220,13 +261,13 @@ const Portfolio = () => {
 
             {/* Navigation Arrows */}
             <button
-              className="absolute left-4 top-1/2 -translate-y-1/2 w-12 h-12 bg-gradient-to-r from-[#0B0B45] to-[#2B0040] text-white rounded-full flex items-center justify-center text-3xl shadow-lg hover:scale-110 transition-transform duration-300"
+              className="absolute left-2 md:left-4 top-1/2 -translate-y-1/2 w-10 h-10 md:w-12 md:h-12 bg-gradient-to-r from-[#0B0B45] to-[#2B0040] text-white rounded-full flex items-center justify-center text-2xl md:text-3xl shadow-lg hover:scale-110 transition-transform duration-300 z-10"
               onClick={goPrev}
             >
               &#10094;
             </button>
             <button
-              className="absolute right-4 top-1/2 -translate-y-1/2 w-12 h-12 bg-gradient-to-r from-[#0B0B45] to-[#2B0040] text-white rounded-full flex items-center justify-center text-3xl shadow-lg hover:scale-110 transition-transform duration-300"
+              className="absolute right-2 md:right-4 top-1/2 -translate-y-1/2 w-10 h-10 md:w-12 md:h-12 bg-gradient-to-r from-[#0B0B45] to-[#2B0040] text-white rounded-full flex items-center justify-center text-2xl md:text-3xl shadow-lg hover:scale-110 transition-transform duration-300 z-10"
               onClick={goNext}
             >
               &#10095;

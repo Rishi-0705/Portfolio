@@ -220,7 +220,7 @@ const Hero = () => {
     <section 
       id="hero"
       ref={heroRef}
-      className="relative min-h-screen flex items-center justify-center overflow-hidden bg-gradient-to-br from-[#05010F] via-[#0B0B45] to-[#2B0040] pt-8 md:pt-12"
+      className="relative min-h-screen flex items-center justify-center overflow-hidden bg-gradient-to-br from-[#05010F] via-[#0B0B45] to-[#2B0040] pt-28 md:pt-28"
     >
       {/* Interactive Particle Canvas */}
       <canvas

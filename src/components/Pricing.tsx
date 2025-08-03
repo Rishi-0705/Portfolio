@@ -14,6 +14,21 @@ const Pricing = () => {
     'Social Media Integration'
   ];
 
+  const testimonials = [
+    {
+      name: 'Magesh, Riddhi Boutique Owner',
+      quote: "The website design delivered by WebforMY is very nice! I love it- Would definitely recommend to others who need a professional website!",
+    },
+    {
+      name: 'Farah, HomeStyle Services',
+      quote: "We finally have an online presence! WebforMY made the process smooth and easy to understand. Highly recommended for small businesses!",
+    },
+    {
+      name: 'Jason, AutoFix Workshop',
+      quote: "I didn’t know we needed a website until WebforMY showed us what’s possible. Now customers are finding us online. Fantastic job!",
+    },
+  ];
+
   const fadeInRef = useFadeInOnScroll<HTMLDivElement>();
 
   return (
@@ -56,7 +71,7 @@ const Pricing = () => {
               {/* Price */}
               <div className="mb-8">
                 <div className="text-6xl md:text-8xl font-poppins font-bold bg-gradient-to-r from-white via-[#e0e7ef] to-[#b6c6e3] bg-clip-text text-transparent mb-2">
-                  RM1,497
+                  Free Preview 
                 </div>
                 <div className="text-gray-400 font-inter text-lg">
                   • Complete Package • 
@@ -76,15 +91,13 @@ const Pricing = () => {
               </div>
 
               {/* CTA Button */}
-              {/* CTA Button */}
-<a
-  href="#contact"
-  className="group relative inline-block px-12 py-6 bg-gradient-to-r from-[#FF2E92] to-[#640043] rounded-full font-poppins font-bold text-xl transition-all duration-300 hover:scale-105 hover:shadow-2xl hover:shadow-[#FF2E92]/50 mb-6"
->
-  <span className="relative z-10">Get Started Today</span>
-  <div className="absolute inset-0 bg-gradient-to-r from-[#FF2E92] to-[#640043] rounded-full blur opacity-50 group-hover:opacity-70 transition-opacity duration-300" />
-</a>
-
+              <a
+                href="#contact"
+                className="group relative inline-block px-12 py-6 bg-gradient-to-r from-[#FF2E92] to-[#640043] rounded-full font-poppins font-bold text-xl transition-all duration-300 hover:scale-105 hover:shadow-2xl hover:shadow-[#FF2E92]/50 mb-6"
+              >
+                <span className="relative z-10">Get Started Today</span>
+                <div className="absolute inset-0 bg-gradient-to-r from-[#FF2E92] to-[#640043] rounded-full blur opacity-50 group-hover:opacity-70 transition-opacity duration-300" />
+              </a>
 
               <p className="text-gray-400 font-inter text-sm">
                 💳 50% deposit + 50% payment upon project completion • 📞 Free consultation included
@@ -92,23 +105,30 @@ const Pricing = () => {
             </div>
           </div>
 
-          {/* Testimonial */}
-          <div className="mt-16 text-center">
-            <div className="max-w-2xl mx-auto p-8 rounded-3xl bg-gradient-to-br from-[#0B0B45]/90 to-[#2B0040]/90 border-2 border-[#FF2E92]/30 shadow-2xl shadow-[#FF2E92]/10">
-              <div className="flex justify-center mb-4">
-                {[...Array(5)].map((_, i) => (
-                  <Star key={i} className="w-6 h-6 text-[#FF2E92] fill-current" />
-                ))}
+          {/* Testimonials - 3 Cards */}
+          <div className="mt-20 grid grid-cols-1 md:grid-cols-3 gap-6">
+            {testimonials.map((review, idx) => (
+              <div
+                key={idx}
+                className="group p-8 rounded-3xl bg-gradient-to-br from-[#0B0B45]/90 to-[#2B0040]/90 border-2 border-[#FF2E92]/30 shadow-2xl shadow-[#FF2E92]/10 hover:scale-[1.03] transition-transform duration-300"
+              >
+                <div className="flex justify-center mb-4 space-x-1">
+                  {[...Array(5)].map((_, i) => (
+                    <Star
+                      key={i}
+                      className="w-6 h-6 text-[#FF2E92] fill-current transform transition duration-300 group-hover:scale-125 group-hover:drop-shadow-[0_0_6px_#FF2E92]"
+                    />
+                  ))}
+                </div>
+                <blockquote className="text-gray-300 text-base italic font-inter mb-4 leading-relaxed">
+                  "{review.quote}"
+                </blockquote>
+                <cite className="text-[#FF2E92] font-poppins font-semibold block text-sm">
+                  — {review.name}
+                </cite>
               </div>
-              <blockquote className="text-lg text-gray-300 font-inter italic mb-4 leading-relaxed">
-                "The website design delivered by WebforMY is very nice! I love it- Would definitely recommend to others who need a professional website !"
-              </blockquote>
-              <cite className="text-[#FF2E92] font-poppins font-semibold">
-                — Magesh, Riddhi Boutique Owner
-              </cite>
-            </div>
+            ))}
           </div>
-
 
         </div>
       </div>

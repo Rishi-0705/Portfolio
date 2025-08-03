@@ -40,7 +40,7 @@ Message: ${message}`;
     {
       icon: Mail,
       title: 'Email Us',
-      content: 'hello@thesnuzy.com',
+      content: 'webformyagency@gmail.com',
       description: 'Send us an email anytime'
     },
     {

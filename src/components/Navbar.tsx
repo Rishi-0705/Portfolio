@@ -1,81 +1,86 @@
 import React, { useState, useRef } from 'react';
 import logo from '../assets/image.png';
-import { Menu } from 'lucide-react';
+import { Menu, X } from 'lucide-react';
 
 const navLinks = [
-  { name: 'Home', href: '#hero' },
-  { name: 'About', href: '#about' },
-  { name: 'Services', href: '#services' },
-  { name: 'Portfolio', href: '#portfolio' },
-  { name: 'Pricing', href: '#pricing' },
-  
-  { name: 'Contact', href: '#contact' },
+  { name: 'Home', href: '/' },
+  { name: 'Services', href: '/web-design-malaysia' },
+  { name: 'Portfolio', href: '/portfolio' },
+  { name: 'Blog', href: '/blog' },
+  { name: 'Contact', href: '/contact' },
 ];
 
 const Navbar = () => {
   const [menuOpen, setMenuOpen] = useState(false);
-  const closeTimeout = useRef<number | null>(null);
 
-  const handleMenuButtonClick = () => {
-    setMenuOpen((open) => !open);
-  };
-
-  const handleMenuMouseEnter = () => {
-    if (closeTimeout.current) {
-      clearTimeout(closeTimeout.current);
-      closeTimeout.current = null;
-    }
-  };
-
-  const handleMenuMouseLeave = () => {
-    closeTimeout.current = window.setTimeout(() => {
-      setMenuOpen(false);
-    }, 200);
-  };
-
-  const handleLinkClick = () => {
+  const handleLinkClick = (href: string) => {
     setMenuOpen(false);
+    window.location.href = href;
   };
 
   return (
-    <nav className="fixed top-0 left-0 w-full z-50 bg-gradient-to-br from-[#05010F] via-[#0B0B45] to-[#2B0040] bg-opacity-90 shadow-lg backdrop-blur-strong">
+    <nav className="fixed top-0 left-0 w-full z-50 bg-white shadow-lg">
       <div className="max-w-7xl mx-auto px-6 py-4 flex justify-between items-center">
-        <a href="#hero" className="flex items-center gap-3 select-none">
-          <img src={logo} alt="WebforMY Logo" className="h-10 w-10 md:h-12 md:w-12 object-contain rounded-full bg-white/10 p-1" />
-          <span className="text-2xl md:text-3xl font-poppins font-bold text-white tracking-wide">WebforMY</span>
+        <a href="/" className="flex items-center gap-3 select-none">
+          <img src={logo} alt="WebforMY - Malaysia Web Design" className="h-10 w-10 md:h-12 md:w-12 object-contain rounded-full bg-blue-50 p-1" />
+          <span className="text-2xl md:text-3xl font-bold text-blue-600 tracking-wide">WebforMY</span>
         </a>
-        <div className="relative group">
-          <button
-            className="flex items-center justify-center w-12 h-12 rounded-full bg-white/10 border border-white/10 shadow-md hover:bg-gradient-to-r hover:from-[#FF2E92]/30 hover:to-[#0B0B45]/30 transition-all duration-300 focus:outline-none"
-            aria-label="Open menu"
-            type="button"
-            onClick={handleMenuButtonClick}
-          >
-            <Menu className="w-7 h-7 text-white" />
-          </button>
-          {menuOpen && (
-            <ul
-              className="absolute right-0 mt-3 w-48 bg-white/10 backdrop-blur-strong border border-white/10 rounded-2xl shadow-2xl py-3 flex flex-col gap-2 animate-fade-in-up"
-              onMouseEnter={handleMenuMouseEnter}
-              onMouseLeave={handleMenuMouseLeave}
+
+        {/* Desktop Navigation */}
+        <div className="hidden md:flex items-center gap-8">
+          {navLinks.map(link => (
+            <a
+              key={link.href}
+              href={link.href}
+              className="text-gray-700 hover:text-blue-600 font-medium transition-colors duration-300"
             >
-              {navLinks.map(link => (
-                <li key={link.href}>
-                  <a
-                    href={link.href}
-                    className="block px-6 py-3 font-inter text-lg text-white rounded-xl hover:bg-gradient-to-r hover:from-[#FF2E92]/30 hover:to-[#0B0B45]/30 hover:text-[#FF2E92] transition-all duration-200"
-                    onClick={handleLinkClick}
-                  >
-                    {link.name}
-                  </a>
-                </li>
-              ))}
-            </ul>
-          )}
+              {link.name}
+            </a>
+          ))}
+          <button
+            onClick={() => window.location.href = '/contact'}
+            className="bg-orange-500 hover:bg-orange-600 text-white px-6 py-3 rounded-lg font-semibold transition-colors duration-300"
+          >
+            Get Quote
+          </button>
         </div>
+
+        {/* Mobile Menu Button */}
+        <button
+          className="md:hidden flex items-center justify-center w-10 h-10 rounded-lg bg-gray-100 hover:bg-gray-200 transition-colors duration-300"
+          onClick={() => setMenuOpen(!menuOpen)}
+          aria-label="Toggle menu"
+        >
+          {menuOpen ? <X className="w-6 h-6 text-gray-700" /> : <Menu className="w-6 h-6 text-gray-700" />}
+        </button>
+
+        {/* Mobile Navigation */}
+        {menuOpen && (
+          <div className="absolute top-full left-0 w-full bg-white shadow-lg border-t border-gray-100 md:hidden">
+            <div className="py-4">
+              {navLinks.map(link => (
+                <button
+                  key={link.href}
+                  onClick={() => handleLinkClick(link.href)}
+                  className="block w-full text-left px-6 py-3 text-gray-700 hover:text-blue-600 hover:bg-gray-50 font-medium transition-colors duration-300"
+                >
+                  {link.name}
+                </button>
+              ))}
+              <div className="px-6 py-3">
+                <button
+                  onClick={() => handleLinkClick('/contact')}
+                  className="w-full bg-orange-500 hover:bg-orange-600 text-white px-6 py-3 rounded-lg font-semibold transition-colors duration-300"
+                >
+                  Get Quote
+                </button>
+              </div>
+            </div>
+          </div>
+        )}
       </div>
     </nav>
   );
 };
 
-export default Navbar; 
+export default Navbar;
